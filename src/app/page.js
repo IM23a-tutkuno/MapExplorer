@@ -1,6 +1,5 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Leaf } from 'lucide-react';
 export default function Home() {
   async function handleClick() {
     const response = await fetch('/api/hello');
