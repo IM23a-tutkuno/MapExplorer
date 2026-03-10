@@ -4,6 +4,8 @@ import {
   Map as MapIcon,
   Globe
 } from 'lucide-react';
+import { MapLibreTileLayer } from '@/components/maplayer';
+import Map from '@/components/map';
 
 export default function Home() {
   const mapSectionRef = useRef(null);
@@ -11,6 +13,9 @@ export default function Home() {
   const scrollToMap = () => {
     mapSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+
+
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
@@ -33,7 +38,7 @@ export default function Home() {
 
 
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900">
-          This is <span className="text-transparent bg-clip-text bg-gradient-to-r text-black">Map Explorer</span>
+          This is <span className="bg-clip-text bg-gradient-to-r text-black">Map Explorer</span>
         </h1>
 
         <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-600 mb-10 leading-relaxed">
@@ -42,7 +47,6 @@ export default function Home() {
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
           <button
-            onClick={scrollToMap}
             className="flex items-center gap-2 bg-black text-white hover:bg-indigo-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg shadow-indigo-200 hover:shadow-xl hover:-translate-y-1"
           >
             <MapIcon className="w-5 h-5" />
@@ -50,9 +54,8 @@ export default function Home() {
           </button>
         </div>
       </main>
-
-      <section ref={mapSectionRef} className="pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-
+      <section className={"pl-6 pr-6"}>
+        <Map className={""} />
       </section>
 
       <footer className="bg-white border-t border-slate-200 py-12">
