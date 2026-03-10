@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
+[![Build Frontend](https://github.com/IM23a-tutkuno/MapExplorer/actions/workflows/frontend_job.yml/badge.svg)](https://github.com/IM23a-tutkuno/MapExplorer/actions/workflows/frontend_job.yml)
+
 
 ## Getting Started
 
