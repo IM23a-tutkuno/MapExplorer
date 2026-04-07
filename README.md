@@ -1,7 +1,13 @@
 [![Build Frontend](https://github.com/IM23a-tutkuno/MapExplorer/actions/workflows/frontend_job.yml/badge.svg)](https://github.com/IM23a-tutkuno/MapExplorer/actions/workflows/frontend_job.yml)
 
-
 ## Getting Started
+
+Configure the required environment variables before starting the app:
+
+```bash
+GEOCODING_API_KEY=your_geoapify_key
+OPENAI_API_KEY=your_openai_key
+```
 
 First, run the development server:
 

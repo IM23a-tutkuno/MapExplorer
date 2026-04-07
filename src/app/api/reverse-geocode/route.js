@@ -1,32 +1,46 @@
 import { NextResponse } from 'next/server';
-import { loadEnvConfig } from '@next/env'
+import { loadEnvConfig } from '@next/env';
 
+import { normalizePlace } from '@/lib/place-insights';
 
-loadEnvConfig(process.cwd())
-
-
+loadEnvConfig(process.cwd());
 
 export async function POST(req) {
-  const body = await req.json()
-  console.log(body)
-  const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${body.lat}&lon=${body.lng}&apiKey=${process.env.GEOCODING_API_KEY}`;
-  const response = await fetch(url, {
-    method: "GET",
-  })
-  const data = await response.json()
-  const location_info = {
-    "name": data.features[0].properties.name,
-    "street": data.features[0].properties.street,
-    "number": data.features[0].properties.housenumber,
-    "city": data.features[0].properties.city,
-    "state": data.features[0].properties.state,
-    "country": data.features[0].properties.country,
-    "plz": data.features[0].properties.postcode,
-    "district": data.features[0].properties.district,
-    "category": data.features[0].properties.category,
-    "lon": data.features[0].properties.lon,
-    "lat": data.features[0].properties.lat,
+  try {
+    const body = await req.json();
+    const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${body.lat}&lon=${body.lng}&apiKey=${process.env.GEOCODING_API_KEY}`;
+    const response = await fetch(url, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      return NextResponse.json({ error: 'Reverse geocoding failed.' }, { status: 502 });
+    }
+
+    const data = await response.json();
+    const properties = data.features?.[0]?.properties;
+
+    if (!properties) {
+      return NextResponse.json({ error: 'No place found for that point.' }, { status: 404 });
+    }
+
+    const locationInfo = normalizePlace({
+      name: properties.name,
+      street: properties.street,
+      number: properties.housenumber,
+      city: properties.city,
+      state: properties.state,
+      country: properties.country,
+      plz: properties.postcode,
+      district: properties.district,
+      category: properties.category,
+      lng: properties.lon,
+      lat: properties.lat,
+    });
+
+    return NextResponse.json({ data: locationInfo });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Unexpected reverse geocoding error.' }, { status: 500 });
   }
-  console.log(location_info)
-  return NextResponse.json({ data: location_info });
 }
